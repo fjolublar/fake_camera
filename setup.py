@@ -1,33 +1,29 @@
 from distutils.core import setup
 
-long_description = """
-# Usage:
+with open('README.md') as f:
+    long_description = """Code Example:
 
-import cv2 as cv
-from fake_camera import Fake_Camera  # import the class
-
-fake_cam_object = Fake_Camera()      # create an instance of the class
-
-while True:
-    canvas_view = fake_cam_object.read_fake_image()   #call the new image from the fake camera
-    cv.imshow("Moving Image", canvas_view)  
-                                   
-    time.sleep(1/10)
-   
-    if cv.waitKey(1) & 0xFF == ord('q'):                                    
-        break
+>>> import cv2 as cv
+>>> from fake_camera import Fake_Camera  # import the class
+>>> fake_cam_object = Fake_Camera()      # create an instance of the class
+>>> while True:
+       canvas_view = fake_cam_object.read_fake_image()   #call the new image from the fake camera
+       cv.imshow("Moving Image", canvas_view)       
+       time.sleep(1/10)
+       if cv.waitKey(1) & 0xFF == ord('q'):                                    
+           break
 """
 
 setup(
   name = 'fake-camera',         # How you named your package folder (MyLib)
   packages = ['fake_camera'],   # Chose the same as "name"
-  version = '0.1',      # Start with a small number and increase it with every change you make
+  version = '0.6',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'A Camera Simulator. It creates a moving image in the screen.',   # Give a short description about your library
   long_description = long_description,
   author = 'fjolublar',                   # Type in your name
   url = 'https://github.com/fjolublar/fake_camera',   # Provide either the link to your github or to your website
-  download_url = 'https://github.com/fjolublar/fake_camera/archive/v_0.1.tar.gz',    # I explain this later on
+  download_url = 'https://github.com/fjolublar/fake_camera/archive/v_0.6.tar.gz',    # I explain this later on
   keywords = ['Fake Camera', 'Moving Image', 'Camera Simulator'],   # Keywords that define your package best
   install_requires=['Pillow', 'numpy'],
   classifiers=[
