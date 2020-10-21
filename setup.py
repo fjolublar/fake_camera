@@ -1,7 +1,6 @@
 from distutils.core import setup
 
-with open('README.md') as f:
-    long_description = """Code Example:
+long_description = """Code Example:
 
 >>> import cv2 as cv
 >>> from fake_camera import Fake_Camera  # import the class
