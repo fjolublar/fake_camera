@@ -1,5 +1,6 @@
 import numpy as np
 from   PIL   import Image
+import copy 
 
 class Fake_Camera():                                      
    
@@ -20,7 +21,7 @@ class Fake_Camera():
             self.frame = np.asarray ( Image.open("lena_color.jpg").convert('L') )
 
         except Exception:
-            self.frame        = np.random.randint(1, 255, size = self.canvas_size, dtype='uint8')  
+            self.frame        = np.random.randint(1, 255, size = (int(self.canvas_size[0]/2), int(self.canvas_size[1]/2) ), dtype='uint8')  
         
         if  self.black_white == 1:
             self.config_black_white()
@@ -86,10 +87,10 @@ class Fake_Camera():
                 self.flip_sign = self.flip_sign + 1
             
             if self.flip_sign % 2 == 0:
-                return self.canvas_view 
+                return copy.deepcopy(self.canvas_view)
             
             elif self.flip_sign % 2 == 1:
-                return np.fliplr(self.canvas_view)
+                return  copy.deepcopy(np.fliplr(self.canvas_view))
             
         except Exception:
             print("Error Somewhere")
