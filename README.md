@@ -2,9 +2,9 @@ Code Example:
 
 ``` python
 import cv2 as cv
-from fake_camera import Fake_Camera  # import the class
+from fake_camera import FakeCamera  # import the class
 
-fake_cam_object = Fake_Camera()      # create an instance of the class
+fake_cam_object = FakeCamera()      # create an instance of the class
 
 while True:
        canvas_view = fake_cam_object.read_fake_image()   #call the new image from the fake camera
