@@ -1,1 +1,1 @@
-from .fake_camera import Fake_Camera
+from .fake_camera import FakeCamera
