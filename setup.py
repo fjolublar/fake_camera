@@ -17,13 +17,13 @@ long_description = """Code Example:
 setup(
   name = 'fake-camera',
   packages = ['fake_camera'],
-  version = 'v0.9.2-alpha',
+  version = 'v0.9.3-alpha',
   license='MIT',
   description = 'A Camera Simulator. It creates a moving image in the screen.',
   long_description = long_description,
   author = 'fjolublar',
   url = 'https://github.com/fjolublar/fake_camera',
-  download_url = 'https://github.com/fjolublar/fake_camera/archive/v0.9.2-alpha.tar.gz',
+  download_url = 'https://github.com/fjolublar/fake_camera/archive/v0.9.3-alpha.tar.gz',
   keywords = ['Fake Camera', 'Moving Image', 'Camera Simulator'],
   install_requires=['Pillow', 'numpy'],
   classifiers=[
