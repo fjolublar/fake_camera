@@ -1,4 +1,4 @@
-.devcontainer
-.vscode
-dist
+.devcontainer/
+.vscode/
+dist/
 **/__pycache__/
