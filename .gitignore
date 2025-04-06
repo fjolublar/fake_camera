@@ -1,4 +1,11 @@
 .devcontainer/
 .vscode/
+
 dist/
+build/
+
 **/__pycache__/
+*.egg-info/
+
+.env
+.venv/
