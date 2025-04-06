@@ -2,6 +2,7 @@ import copy
 import os
 
 import numpy as np
+from numpy.typing import NDArray
 from PIL import Image
 
 
@@ -33,10 +34,10 @@ class FakeCamera():
         if not full_image_path:
             raise RuntimeError("An image full-path was not provided, but it is required!")
 
-        self.frame = self._get_image_frame(full_image_path, colour_mode=self.colour_mode)
+        self.frame: NDArray = self._get_image_frame(full_image_path, colour_mode=self.colour_mode)
         return self
 
-    def _get_image_frame(self, image_path: str, colour_mode: str):
+    def _get_image_frame(self, image_path: str, colour_mode: str) -> NDArray:
         """Read the image from the given path and return the numpy array representation"""
 
         if not os.path.exists(image_path):
@@ -58,10 +59,10 @@ class FakeCamera():
             background_size = (1000, 1000)  Size of the background where the image will be shown on
         """
 
-        self.canvas = self.get_background_image(background_colour, background_size, self.colour_mode)
+        self.canvas: NDArray = self.get_background_image(background_colour, background_size, self.colour_mode)
         return self
 
-    def get_background_image(self, background_colour: str, background_size: tuple[int], colour_mode: str):
+    def get_background_image(self, background_colour: str, background_size: tuple[int], colour_mode: str) -> NDArray:
         """Create and return the background image on top the image will be displayed on"""
 
         if colour_mode == self.GRAYSCALE:
@@ -89,7 +90,7 @@ class FakeCamera():
         self._config_noise()
         return self
 
-    def _config_noise(self):
+    def _config_noise(self) -> None:
         """Configure noise metadata"""
 
         self.mean = 0
@@ -104,13 +105,13 @@ class FakeCamera():
         self.flip_nr = 0
         return self
 
-    def build(self):
+    def build(self) -> None:
         """Build and return the fully functioning FakeCamera object"""
 
         self._set_canvas_view()
         return self
 
-    def _set_canvas_view(self):
+    def _set_canvas_view(self) -> None:
         """Add the main image in the background and create the canvas view"""
 
         self.upper_left_point_x = int(self.canvas.shape[0]/4)
@@ -129,7 +130,7 @@ class FakeCamera():
 
         self.canvas[self.limit_x_start:self.limit_x_end, self.limit_y_start:self.limit_y_end]
 
-    def _get_latest_image(self):
+    def _get_latest_image(self) -> NDArray:
         """Get the latest snapshot from the fake camera and return it without modifying it beforehand"""
 
         self.stepsize_x = np.random.randint(-self.pixel_move, self.pixel_move + 1)
@@ -146,7 +147,7 @@ class FakeCamera():
         canvas_view = self.canvas[new_start_x:end_x, new_start_y:end_y]
         return canvas_view
 
-    def _add_noise_to_image(self, image):
+    def _add_noise_to_image(self, image: NDArray) -> NDArray:
         """Add noise to the image based on the noise configuration"""
 
         if len(image.shape) == 2:
@@ -164,7 +165,7 @@ class FakeCamera():
 
         return noisy_image
 
-    def _flip_the_image(self, canvas_view):
+    def _flip_the_image(self, canvas_view: NDArray) -> NDArray:
 
         if np.random.uniform(low=0.0, high=1.0) < self._flip_sign_probability:
             self.flip_nr += 1
@@ -175,10 +176,10 @@ class FakeCamera():
         elif self.flip_nr % 2 == 1:
             return copy.deepcopy(np.fliplr(canvas_view))
 
-    def get_snapshot(self):
+    def get_snapshot(self) -> NDArray:
         """Get the latest snapshot from the fake camera and return it after modifying it if necessary"""
 
-        snapshot = self._get_latest_image()
+        snapshot: NDArray = self._get_latest_image()
 
         if self._use_noisy_image:
             snapshot = self._add_noise_to_image(snapshot)
