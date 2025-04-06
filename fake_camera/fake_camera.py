@@ -24,18 +24,16 @@ class FakeCamera():
         self._use_noisy_image: bool = False # Do not add noise to the images by default
         self._flip_image_toogle = False # Do not flip the image by default
 
-    def add_foreground_image(self, image_path: str=""):
+    def add_foreground_image(self, full_image_path: str=""):
         """Add main foreground image that will be displayed.
             example:
-                image_path = 'image_example.jpg'
+                full_image_path = './image_example.jpg'
         """
 
-        if not image_path:
-            default_image_path = "lena_color.jpg"
-            current_directory = os.path.dirname(os.path.abspath(__file__))
-            image_path = os.path.join(current_directory, default_image_path)
+        if not full_image_path:
+            raise RuntimeError("An image full-path was not provided, but it is required!")
 
-        self.frame = self._get_image_frame(image_path, colour_mode=self.colour_mode)
+        self.frame = self._get_image_frame(full_image_path, colour_mode=self.colour_mode)
         return self
 
     def _get_image_frame(self, image_path: str, colour_mode: str):
