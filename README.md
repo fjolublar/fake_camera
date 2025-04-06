@@ -2,7 +2,7 @@ A python library to simulate a Camera when you don't have one at hand.
 Simulates a moving Image in the screen.
 
 Note!
-`opencv` is not required to use the fake-camera, however it is used here as an usecase example.
+`opencv` is not required to use the fake-camera, however it is used here as a usecase example.
 
 
 **Code Example**:
@@ -12,7 +12,7 @@ import time
 import cv2 as cv
 from fake_camera import FakeCamera  # import the class
 
-fake_cam_object = FakeCamera().add_foreground_image("lena_color.jpg").add_background_image().build() # create an instance of the fake camera class
+fake_cam_object = FakeCamera().add_foreground_image("./lena_color.jpg").add_background_image().build() # create an instance of the fake camera class
 # fake_cam_object = FakeCamera().add_foreground_image("lena_color.jpg").add_background_image().add_flip_to_feed().build() # add a random flip to the image
 # fake_cam_object = FakeCamera().add_foreground_image("lena_color.jpg").add_background_image().add_noise().build() # add noise to the image
 
