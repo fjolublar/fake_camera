@@ -2,7 +2,6 @@ A python library to simulate a Camera when you don't have one at hand.
 Simulates a moving Image in the screen.
 
 Note!
-
 `opencv` is not required to use the fake-camera, however it is used here as an usecase example.
 
 

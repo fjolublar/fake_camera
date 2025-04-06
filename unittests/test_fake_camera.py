@@ -1,4 +1,3 @@
-import time
 from fake_camera import FakeCamera  # import the class
 
 
