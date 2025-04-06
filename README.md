@@ -12,6 +12,8 @@ pip install fake-camera
 
 **Code Example**:
 
+Please note that a full path for the foreground_image is required!
+
 ``` python
 import time
 import cv2 as cv
