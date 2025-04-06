@@ -13,8 +13,8 @@ class FakeCamera():
         Library for creating a moving image on the screen simulating a camera feed.
 
         args:
-            colour = "colour" or "grayscale", Colour image or grayscale
-            pixel_move = int,  How many pixels the image will move between polls
+            colour = "colour" or "grayscale",
+            pixel_move = int,  # how many pixels the image will move between polls
         """
 
         self.GRAYSCALE = "grayscale"
@@ -25,7 +25,10 @@ class FakeCamera():
         self._flip_image_toogle = False # Do not flip the image by default
 
     def add_foreground_image(self, image_path: str=""):
-        """Add main image that will be displayed. For example image_path = 'image_example.jpg'"""
+        """Add main foreground image that will be displayed.
+            example:
+                image_path = 'image_example.jpg'
+        """
 
         if not image_path:
             default_image_path = "lena_color.jpg"
@@ -33,17 +36,15 @@ class FakeCamera():
             image_path = os.path.join(current_directory, default_image_path)
 
         self.frame = self._get_image_frame(image_path, colour_mode=self.colour_mode)
-        if self.frame is None:
-            raise RuntimeError("Image does not exist in the current directory!")
         return self
 
     def _get_image_frame(self, image_path: str, colour_mode: str):
         """Read the image from the given path and return the numpy array representation"""
 
-        try:
-            frame = Image.open(image_path)
-        except Exception:
-            return None
+        if not os.path.exists(image_path):
+            raise FileNotFoundError(f"File not found: {image_path}")
+
+        frame = Image.open(image_path)
 
         if colour_mode == self.GRAYSCALE:
             frame = np.asarray(frame.convert("L"))
@@ -84,7 +85,7 @@ class FakeCamera():
         return background_image
 
     def add_noise(self):
-        """Use of do not use noise in the shown fake video stream"""
+        """Add noise in the shown fake video stream"""
 
         self._use_noisy_image: bool = True
         self._config_noise()
@@ -101,18 +102,18 @@ class FakeCamera():
         """Introduce a random in-the-middle flip to the video feed"""
 
         self._flip_image_toogle = True
-        self._flip_sign_probability = 0.05
+        self._flip_sign_probability = 0.03
         self.flip_nr = 0
         return self
 
     def build(self):
         """Build and return the fully functioning FakeCamera object"""
 
-        self.canvas_view = self._get_canvas_view()
+        self._set_canvas_view()
         return self
 
-    def _get_canvas_view(self):
-        """Add the main image in the background and return the canvas view"""
+    def _set_canvas_view(self):
+        """Add the main image in the background and create the canvas view"""
 
         self.upper_left_point_x = int(self.canvas.shape[0]/4)
         self.upper_left_point_y = int(self.canvas.shape[0]/4)
@@ -128,17 +129,16 @@ class FakeCamera():
         self.old_start_x = self.upper_left_point_x
         self.old_start_y = self.upper_left_point_y
 
-        canvas_view = self.canvas[self.limit_x_start:self.limit_x_end, self.limit_y_start:self.limit_y_end]
-        return canvas_view
+        self.canvas[self.limit_x_start:self.limit_x_end, self.limit_y_start:self.limit_y_end]
 
     def _get_latest_image(self):
         """Get the latest snapshot from the fake camera and return it without modifying it beforehand"""
 
-        self.stepsize_x = np.random.randint(-self.pixel_move, self.pixel_move +1)
-        self.stepsize_y = np.random.randint(-self.pixel_move, self.pixel_move +1)
+        self.stepsize_x = np.random.randint(-self.pixel_move, self.pixel_move + 1)
+        self.stepsize_y = np.random.randint(-self.pixel_move, self.pixel_move + 1)
 
-        new_start_x = min(max(self.limit_x_start, self.old_start_x + self.stepsize_x), self.limit_x_start*4)
-        new_start_y = min(max(self.limit_y_start, self.old_start_y + self.stepsize_y), self.limit_y_start*2)
+        new_start_x = min(max(self.limit_x_start, self.old_start_x + self.stepsize_x), self.limit_x_start * 4)
+        new_start_y = min(max(self.limit_y_start, self.old_start_y + self.stepsize_y), self.limit_y_start * 2)
 
         self.old_start_x, self.old_start_y = new_start_x, new_start_y
 
@@ -153,7 +153,7 @@ class FakeCamera():
 
         if len(image.shape) == 2:
             row, col = image.shape
-            self.gauss = np.random.normal(self.mean, self.sigma, (row, col))*50
+            self.gauss = np.random.normal(self.mean, self.sigma, (row, col)) * 50
             self.gauss = self.gauss.reshape(row, col)
 
         elif len(image.shape) == 3:
