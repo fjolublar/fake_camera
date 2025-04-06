@@ -1,3 +1,4 @@
 .devcontainer
 .vscode
 dist
+**/__pycache__/
